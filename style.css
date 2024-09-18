@@ -1,43 +1,74 @@
 body {
     font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f8ff;
+    text-align: center;
+    background-color: #3498db; /* Цвет фона под водой */
 }
 
 h1 {
-    margin-bottom: 20px;
+    color: #fff;
 }
 
 #game-area {
+    margin-top: 20px;
     position: relative;
-    width: 80%;
-    height: 400px;
-    background-color: #87ceeb;
-    border: 2px solid #000;
-    border-radius: 10px;
-    overflow: hidden;
+    width: 100%;
 }
 
-.bubble {
-    position: absolute;
-    background-color: #ffcccb;
-    border-radius: 50%;
-    width: 60px;
+#treasure-chests {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 200px;
+}
+
+.treasure-chest {
+    width: 50px;
     height: 60px;
+    background-color: #8e44ad; /* Цвет сундука */
+    border: 2px solid #fff;
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.treasure-chest.open {
+    background-color: #27ae60; /* Цвет сундука при открытии */
+}
+
+.treasure-chest.open .chest-number {
+    display: block;
+}
+
+.chest-number {
+    display: none;
     font-size: 20px;
-    color: white;
+    font-weight: bold;
+    color: #fff;
+}
+
+.bubble {
+    width: 80px;
+    height: 80px;
+    background-color: #fff; /* Цвет пузыря */
+    border-radius: 50%;
+    display: inline-block;
+    margin: 10px;
+    line-height: 80px;
+    font-size: 24px;
     cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.bubble:hover {
+    transform: scale(1.1);
 }
 
 #score {
     margin-top: 20px;
     font-size: 24px;
+    color: #fff;
 }
+
