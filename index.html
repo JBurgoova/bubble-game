@@ -7,10 +7,88 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Лопни пузырь с правильным числом!</h1>
-    <div id="game-area"></div>
-    <div id="score">Очки: 0</div>
+    <h1>Игра: Лопни пузырь с правильным числом!</h1>
+    <div id="game-area">
+        <div id="treasure-chests">
+            <div class="treasure-chest" id="treasure-chest-1"><span class="chest-number"></span></div>
+            <div class="treasure-chest" id="treasure-chest-2"><span class="chest-number"></span></div>
+            <div class="treasure-chest" id="treasure-chest-3"><span class="chest-number"></span></div>
+            <div class="treasure-chest" id="treasure-chest-4"><span class="chest-number"></span></div>
+            <div class="treasure-chest" id="treasure-chest-5"><span class="chest-number"></span></div>
+            <div class="treasure-chest" id="treasure-chest-6"><span class="chest-number"></span></div>
+            <div class="treasure-chest" id="treasure-chest-7"><span class="chest-number"></span></div>
+            <div class="treasure-chest" id="treasure-chest-8"><span class="chest-number"></span></div>
+            <div class="treasure-chest" id="treasure-chest-9"><span class="chest-number"></span></div>
+            <div class="treasure-chest" id="treasure-chest-10"><span class="chest-number"></span></div>
+        </div>
+    </div>
+    <div id="score">Очки: <span id="score-value">0</span></div>
     
     <script src="script.js"></script>
+    <script>
+        const levels = [
+            { min: 1, max: 10 },
+            { min: 11, max: 20 },
+            { min: 21, max: 30 },
+            { min: 31, max: 40 },
+            { min: 41, max: 50 },
+            { min: 51, max: 60 },
+            { min: 61, max: 70 },
+            { min: 71, max: 80 },
+            { min: 81, max: 90 },
+            { min: 91, max: 100 }
+        ];
+
+        const gameArea = document.getElementById('game-area');
+        const scoreValue = document.getElementById('score-value');
+        const treasureChests = document.querySelectorAll('.treasure-chest');
+
+        // Функция для генерации случайного числа в заданном диапазоне
+        function getRandomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // Функция для создания и отображения пузырей с числами
+        function createNumberBubble(level) {
+            gameArea.innerHTML = ''; // Очистить предыдущие пузыри
+
+            const randomNumber = getRandomNumber(levels[level].min, levels[level].max);
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            bubble.textContent = randomNumber;
+
+            bubble.addEventListener('click', function() {
+                // Проверка, является ли выбранное число правильным для уровня
+                if (randomNumber === levels[level].min) {
+                    // Правильное число выбрано, увеличиваем очки
+                    let currentScore = parseInt(scoreValue.textContent);
+                    scoreValue.textContent = currentScore + 1;
+
+                    // Переход к следующему уровню
+                    if (level < levels.length - 1) {
+                        setTimeout(function() {
+                            createNumberBubble(level + 1);
+                        }, 1000); // Задержка перед переходом на следующий уровень
+                    } else {
+                        alert('Поздравляем! Вы завершили все уровни игры.');
+                    }
+
+                    // Анимация для попадания в сундук
+                    const chestIndex = level % 10; // Индекс сундука
+                    const currentChest = treasureChests[chestIndex];
+                    currentChest.classList.add('open'); // Открыть сундук
+                    currentChest.querySelector('.chest-number').textContent = randomNumber; // Установить номер в сундук
+                } else {
+                    // Неправильное число выбрано, можно добавить обработку ошибки
+                    alert('Выберите правильное число!');
+                }
+            });
+
+            gameArea.appendChild(bubble);
+        }
+
+        // Запуск игры
+        createNumberBubble(0); // Начать с первого уровня
+    </script>
 </body>
 </html>
